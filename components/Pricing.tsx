@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const plans = [
   {
@@ -32,6 +33,20 @@ const plans = [
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+  }, []);
+
+  const handlePlanSelect = (plan: any) => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    } else {
+      router.push(`/checkout?plan=${plan.name}&price=${isYearly ? Math.round(plan.monthlyPrice * 0.8) : plan.monthlyPrice}&billing=${isYearly ? 'yearly' : 'monthly'}`);
+    }
+  };
 
   return (
     <section id="vps" style={{ padding: '6rem 0' }}>
@@ -186,24 +201,20 @@ export default function Pricing() {
                   </ul>
                 </div>
                 
-                <Link 
-                  href={`/checkout?plan=${plan.name}&price=${isYearly ? yearlyPriceMonthly : monthlyPrice}&billing=${isYearly ? 'yearly' : 'monthly'}`}
-                  style={{ width: '100%' }}
+                <button 
+                  onClick={() => handlePlanSelect(plan)}
+                  className={(isRecommended || isHovered) ? 'btn-primary' : 'glass'} 
+                  style={{ 
+                    width: '100%', 
+                    padding: '0.8rem', 
+                    borderRadius: '12px',
+                    transition: 'all 0.3s ease',
+                    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                    background: isHovered ? 'linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary))' : undefined
+                  }}
                 >
-                  <button 
-                    className={(isRecommended || isHovered) ? 'btn-primary' : 'glass'} 
-                    style={{ 
-                      width: '100%', 
-                      padding: '0.8rem', 
-                      borderRadius: '12px',
-                      transition: 'all 0.3s ease',
-                      transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                      background: isHovered ? 'linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary))' : undefined
-                    }}
-                  >
-                    {isHovered ? 'Select Plan' : 'Get Started'}
-                  </button>
-                </Link>
+                  {isHovered ? 'Select Plan' : 'Get Started'}
+                </button>
               </div>
             );
           })}
