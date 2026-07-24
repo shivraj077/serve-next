@@ -13,8 +13,17 @@ if (!cached) {
 async function dbConnect() {
   const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/servnext';
 
-  if (cached.conn) {
+  const isConnected = (mongoose.connection.readyState as number) === 1;
+
+  // Check if mongoose is currently connected
+  if (isConnected && cached.conn) {
     return cached.conn;
+  }
+
+  // Reset cache if connection was broken or uninitialized
+  if (!isConnected) {
+    cached.conn = null;
+    cached.promise = null;
   }
 
   if (MONGODB_URI.includes('<db_password>')) {
@@ -24,13 +33,14 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 15000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
       console.log('✅ MongoDB Atlas Connected Successfully!');
       return mongooseInstance;
     }).catch((err) => {
+      cached.conn = null;
       cached.promise = null;
       console.error('MongoDB Connection Error:', err.message);
       throw new Error(`MongoDB Connection Failed: ${err.message}`);
@@ -40,6 +50,7 @@ async function dbConnect() {
   try {
     cached.conn = await cached.promise;
   } catch (e) {
+    cached.conn = null;
     cached.promise = null;
     throw e;
   }
