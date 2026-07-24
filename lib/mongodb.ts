@@ -1,17 +1,10 @@
 import mongoose from 'mongoose';
 
-let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/servnext';
-
-// If MONGODB_URI still contains placeholder `<db_password>`, fallback to local MongoDB to avoid auth failure
-if (MONGODB_URI.includes('<db_password>')) {
-  console.warn('⚠️ MONGODB_URI contains placeholder <db_password>. Falling back to local MongoDB mongodb://localhost:27017/servnext');
-  MONGODB_URI = 'mongodb://localhost:27017/servnext';
-}
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/servnext';
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
+ * in development.
  */
 let cached = (global as any).mongoose;
 
@@ -24,21 +17,22 @@ async function dbConnect() {
     return cached.conn;
   }
 
+  if (MONGODB_URI.includes('<db_password>')) {
+    throw new Error('Please replace <db_password> in .env.local with your actual MongoDB Atlas database password.');
+  }
+
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
       return mongooseInstance;
     }).catch((err) => {
+      cached.promise = null;
       console.error('MongoDB Connection Error:', err.message);
-      // Fallback to local MongoDB if remote connection fails (e.g. bad auth)
-      if (MONGODB_URI !== 'mongodb://localhost:27017/servnext') {
-        console.warn('Falling back to local MongoDB connection (mongodb://localhost:27017/servnext)');
-        return mongoose.connect('mongodb://localhost:27017/servnext', opts);
-      }
-      throw err;
+      throw new Error(`MongoDB Connection Failed: ${err.message}. Please check your MONGODB_URI password in .env.local`);
     });
   }
 
