@@ -12,7 +12,7 @@ export default function DashboardPage() {
     // Route Protection: Redirect if not logged in
     const authStatus = localStorage.getItem('isLoggedIn');
     const userId = localStorage.getItem('userId');
-    
+
     if (authStatus !== 'true' || !userId) {
       router.push('/login');
       return;
@@ -36,7 +36,7 @@ export default function DashboardPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--background)' }}>
       <Navbar />
-      
+
       <section style={{ padding: '8rem 0 4rem 0' }}>
         <div className="container">
           <div className="glass fade-in" style={{ padding: '3rem', borderRadius: '24px', marginBottom: '3rem' }}>
@@ -48,7 +48,7 @@ export default function DashboardPage() {
             <div className="glass" style={{ padding: '2rem', borderRadius: '20px' }}>
               <h3 style={{ marginBottom: '1rem', color: 'var(--accent-primary)' }}>Active Instances</h3>
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{servers.length}</div>
-              
+
               {servers.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
                   {servers.map((server: any, idx: number) => (
@@ -71,7 +71,7 @@ export default function DashboardPage() {
               ) : (
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>You have no active servers. Deploy your first instance today!</p>
               )}
-              
+
               <button className="btn-primary" style={{ marginTop: '1.5rem', width: '100%' }}>
                 {servers.length > 0 ? 'Manage All Instances' : 'Deploy New Server'}
               </button>

@@ -59,21 +59,21 @@ export default function Navbar() {
         <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
           <span className="gradient-text">ServNext</span>
         </Link>
-        
+
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <Link href="/#hosting" style={{ fontSize: '0.9rem', fontWeight: '500' }}>Hosting</Link>
           <Link href="/#vps" style={{ fontSize: '0.9rem', fontWeight: '500' }}>VPS</Link>
           <Link href="/#support" style={{ fontSize: '0.9rem', fontWeight: '500' }}>Support</Link>
-          
+
           {isLoggedIn ? (
             <>
               {userRole === 'admin' && (
                 <Link href="/admin" style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#00ff88', border: '1px solid #00ff88', padding: '0.3rem 0.8rem', borderRadius: '5px' }}>Admin Panel</Link>
               )}
               <Link href="/dashboard" style={{ fontSize: '0.9rem', fontWeight: '500', color: 'var(--accent-primary)' }}>Dashboard</Link>
-              <button 
+              <button
                 onClick={handleLogout}
-                className="glass" 
+                className="glass"
                 style={{ padding: '0.5rem 1.5rem', borderRadius: '8px', color: '#ff4b4b', fontWeight: '600' }}
               >
                 Logout

@@ -29,6 +29,16 @@ const ServerSchema = new mongoose.Schema({
   purchaseDate: {
     type: Date,
     default: Date.now,
+  },
+  paymentId: {
+    type: String,
+  },
+  paymentStatus: {
+    type: String,
+    default: 'Paid',
+  },
+  razorpayOrderId: {
+    type: String,
   }
 }, { timestamps: true });
 

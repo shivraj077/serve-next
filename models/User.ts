@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema({
   },
   firstName: String,
   lastName: String,
+  phone: {
+    type: String,
+    required: [true, 'Please provide a mobile number'],
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],

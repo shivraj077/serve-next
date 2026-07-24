@@ -15,6 +15,7 @@ export default function SignupPage() {
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
       email: formData.get('email'),
+      phone: formData.get('phone'),
       password: formData.get('password'),
     };
 
@@ -30,7 +31,8 @@ export default function SignupPage() {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userId', result.userId);
         localStorage.setItem('userEmail', data.email as string);
-        localStorage.setItem('userRole', 'user'); // New signups are users by default
+        localStorage.setItem('userPhone', data.phone as string);
+        localStorage.setItem('userRole', 'user');
         Swal.fire({
           title: 'Welcome!',
           text: 'Account Created Successfully!',
@@ -65,7 +67,7 @@ export default function SignupPage() {
       const res = await fetch('/api/auth/social', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'google-user@example.com', firstName: 'Google', lastName: 'User' }),
+        body: JSON.stringify({ email: 'google-user@example.com', firstName: 'Google', lastName: 'User', phone: '+91 9876543210' }),
       });
       const result = await res.json();
       if (res.ok) {
@@ -98,7 +100,7 @@ export default function SignupPage() {
       const res = await fetch('/api/auth/social', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'github-user@example.com', firstName: 'Github', lastName: 'User' }),
+        body: JSON.stringify({ email: 'github-user@example.com', firstName: 'Github', lastName: 'User', phone: '+91 9876543210' }),
       });
       const result = await res.json();
       if (res.ok) {
@@ -137,7 +139,7 @@ export default function SignupPage() {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <div className="container" style={{ maxWidth: '500px' }}>
+        <div className="container" style={{ maxWidth: '520px' }}>
           <div className="glass fade-in" style={{ padding: '3rem', borderRadius: '30px', boxShadow: '0 40px 80px rgba(0,0,0,0.5)' }}>
             <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
               <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Create Account</h1>
@@ -199,6 +201,29 @@ export default function SignupPage() {
                   type="email"
                   required
                   placeholder="name@company.com"
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid var(--card-border)',
+                    color: 'white',
+                    outline: 'none',
+                    fontSize: '1rem',
+                    transition: 'border-color 0.3s ease'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = 'var(--accent-primary)'}
+                  onBlur={(e) => e.target.style.borderColor = 'var(--card-border)'}
+                />
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>Mobile Number 📱</label>
+                <input
+                  name="phone"
+                  type="tel"
+                  required
+                  placeholder="+91 98765 43210"
                   style={{
                     width: '100%',
                     padding: '1rem',

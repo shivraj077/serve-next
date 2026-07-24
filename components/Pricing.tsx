@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 const plans = [
   {
     name: 'Starter',
-    monthlyPrice: 80,
+    monthlyPrice: 2,
     features: ['4 vCPU Cores', '8GB RAM', '200GB NVMe SSD', '10TB Bandwidth', 'Daily Backups', 'Free SSL', '24/7 Support'],
     recommended: false
   },
@@ -53,16 +53,16 @@ export default function Pricing() {
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h2 className="section-title">High-Performance <span className="gradient-text">Enterprise VPS</span></h2>
-          
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             gap: '1rem',
             marginTop: '-1rem'
           }}>
             <span style={{ color: !isYearly ? 'white' : 'rgba(255,255,255,0.5)', fontWeight: '600' }}>Monthly</span>
-            <button 
+            <button
               onClick={() => setIsYearly(!isYearly)}
               style={{
                 width: '60px',
@@ -86,10 +86,10 @@ export default function Pricing() {
               }} />
             </button>
             <span style={{ color: isYearly ? 'white' : 'rgba(255,255,255,0.5)', fontWeight: '600' }}>
-              Yearly <span style={{ 
-                fontSize: '0.7rem', 
-                background: 'var(--success)', 
-                padding: '2px 8px', 
+              Yearly <span style={{
+                fontSize: '0.7rem',
+                background: 'var(--success)',
+                padding: '2px 8px',
                 borderRadius: '10px',
                 marginLeft: '5px',
                 color: 'black',
@@ -98,7 +98,7 @@ export default function Pricing() {
             </span>
           </div>
         </div>
-        
+
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
@@ -112,8 +112,8 @@ export default function Pricing() {
             const totalYearly = yearlyPriceMonthly * 12;
 
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="glass"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -151,43 +151,43 @@ export default function Pricing() {
                       {isHovered ? 'SELECT THIS PLAN' : 'BEST VALUE'}
                     </span>
                   )}
-                  
+
                   <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', transition: 'all 0.3s ease', color: isHovered ? 'var(--accent-primary)' : 'white' }}>{plan.name}</h3>
                   <div style={{ marginBottom: '2rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '8px' }}>
                       {isYearly && (
-                        <span style={{ 
-                          fontSize: '1.2rem', 
-                          color: 'rgba(255,255,255,0.3)', 
-                          textDecoration: 'line-through' 
+                        <span style={{
+                          fontSize: '1.2rem',
+                          color: 'rgba(255,255,255,0.3)',
+                          textDecoration: 'line-through'
                         }}>
-                          ${monthlyPrice}
+                          ₹{monthlyPrice}
                         </span>
                       )}
                       <span style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
-                        ${isYearly ? yearlyPriceMonthly : monthlyPrice}
+                        ₹{isYearly ? yearlyPriceMonthly : monthlyPrice}
                       </span>
                       <span style={{ color: 'rgba(255,255,255,0.6)' }}>/mo</span>
                     </div>
                     {isYearly && (
-                      <div style={{ 
-                        fontSize: '0.85rem', 
-                        color: 'var(--success)', 
+                      <div style={{
+                        fontSize: '0.85rem',
+                        color: 'var(--success)',
                         marginTop: '8px',
                         fontWeight: '600'
                       }}>
-                        ${totalYearly} billed annually
+                        ₹{totalYearly} billed annually
                       </div>
                     )}
                   </div>
-                  
+
                   <ul style={{ listStyle: 'none', textAlign: 'left', marginBottom: '2rem' }}>
                     {plan.features.map((feature, i) => (
-                      <li key={i} style={{ 
-                        marginBottom: '0.7rem', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '0.5rem', 
+                      <li key={i} style={{
+                        marginBottom: '0.7rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
                         fontSize: '0.9rem',
                         transition: 'all 0.3s ease',
                         opacity: isHovered ? 1 : 0.8
@@ -200,13 +200,13 @@ export default function Pricing() {
                     ))}
                   </ul>
                 </div>
-                
-                <button 
+
+                <button
                   onClick={() => handlePlanSelect(plan)}
-                  className={(isRecommended || isHovered) ? 'btn-primary' : 'glass'} 
-                  style={{ 
-                    width: '100%', 
-                    padding: '0.8rem', 
+                  className={(isRecommended || isHovered) ? 'btn-primary' : 'glass'}
+                  style={{
+                    width: '100%',
+                    padding: '0.8rem',
                     borderRadius: '12px',
                     transition: 'all 0.3s ease',
                     transform: isHovered ? 'scale(1.05)' : 'scale(1)',
