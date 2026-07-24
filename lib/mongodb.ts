@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/servnext';
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development.
@@ -13,6 +11,8 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/servnext';
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -24,15 +24,16 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+      console.log('✅ MongoDB Atlas Connected Successfully!');
       return mongooseInstance;
     }).catch((err) => {
       cached.promise = null;
       console.error('MongoDB Connection Error:', err.message);
-      throw new Error(`MongoDB Connection Failed: ${err.message}. Please check your MONGODB_URI password in .env.local`);
+      throw new Error(`MongoDB Connection Failed: ${err.message}`);
     });
   }
 
