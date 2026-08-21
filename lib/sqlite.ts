@@ -1,14 +1,21 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import crypto from 'crypto';
+import os from 'os';
 
-const dbPath = path.join(process.cwd(), 'servnext.db');
+const isVercel = Boolean(process.env.VERCEL || process.env.NEXT_PUBLIC_VERCEL_ENV);
+const dbPath = isVercel
+  ? path.join(os.tmpdir(), 'servnext.db')
+  : path.join(process.cwd(), 'servnext.db');
+
 let db: InstanceType<typeof Database> | null = null;
 
 export function getDb() {
   if (!db) {
     db = new Database(dbPath);
-    db.pragma('journal_mode = WAL');
+    if (!isVercel) {
+      db.pragma('journal_mode = WAL');
+    }
     initTables(db);
   }
   return db;
