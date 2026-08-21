@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Server from '@/models/Server';
+import { getServersByUserId, createServer } from '@/lib/sqlite';
 
 export async function GET(req: Request) {
   try {
-    await dbConnect();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
 
@@ -12,7 +10,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'User ID required' }, { status: 400 });
     }
 
-    const servers = await Server.find({ userId }).sort({ purchaseDate: -1 });
+    const servers = getServersByUserId(userId);
     return NextResponse.json(servers);
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
@@ -21,12 +19,12 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();
     const data = await req.json();
 
-    const server = await Server.create(data);
+    const server = createServer(data);
     return NextResponse.json(server, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+

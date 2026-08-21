@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
-import Server from '@/models/Server';
+import { deleteUser } from '@/lib/sqlite';
 
 export async function DELETE(req: Request) {
   try {
-    await dbConnect();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
 
@@ -13,13 +10,9 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
     }
 
-    // 1. Remove all servers associated with this user
-    await Server.deleteMany({ userId });
-
-    // 2. Remove the user
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const success = deleteUser(userId);
     
-    if (!deletedUser) {
+    if (!success) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
@@ -28,3 +21,4 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+

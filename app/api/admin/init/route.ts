@@ -1,22 +1,15 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
+import { getDb } from '@/lib/sqlite';
 
 export async function GET() {
   try {
-    await dbConnect();
-    
-    // Update all users that don't have a role field yet
-    const result = await User.updateMany(
-      { role: { $exists: false } },
-      { $set: { role: 'user' } }
-    );
+    getDb();
     
     return NextResponse.json({ 
-      message: 'Database initialized successfully', 
-      modifiedCount: result.modifiedCount 
+      message: 'SQLite Database initialized successfully', 
     });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+

@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
+import { updateUserRole } from '@/lib/sqlite';
 
 export async function PUT(req: Request) {
   try {
-    await dbConnect();
     const { userId, newRole } = await req.json();
 
     if (!userId || !newRole) {
@@ -15,7 +13,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ message: 'Invalid role' }, { status: 400 });
     }
 
-    const user = await User.findByIdAndUpdate(userId, { role: newRole }, { new: true });
+    const user = updateUserRole(userId, newRole);
     
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
@@ -26,3 +24,4 @@ export async function PUT(req: Request) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+

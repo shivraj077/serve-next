@@ -16,7 +16,9 @@ export async function POST(req: Request) {
     const isPlaceholderKey =
       keyId.includes('51234567890123') ||
       keyId.includes('demo') ||
-      keySecret.includes('test_secret_key');
+      keyId.includes('your_key_id_here') ||
+      keySecret.includes('test_secret_key') ||
+      keySecret.includes('your_razorpay_secret_here');
 
     if (!isPlaceholderKey) {
       try {

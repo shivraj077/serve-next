@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import dbConnect from '@/lib/mongodb';
-import Server from '@/models/Server';
+import { createServer } from '@/lib/sqlite';
 
 export async function POST(req: Request) {
   try {
@@ -40,10 +39,8 @@ export async function POST(req: Request) {
       }
     }
 
-    // Save server order to MongoDB
-    await dbConnect();
-
-    const server = await Server.create({
+    // Save server order to SQLite
+    const server = createServer({
       userId: serverData.userId,
       plan: serverData.plan || 'Professional',
       quantity: serverData.quantity || 1,
