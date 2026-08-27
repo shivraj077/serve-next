@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(req) {
+export function proxy(req) {
     if (process.env.MAINTENANCE_MODE === 'true') {
         return new NextResponse(
             `
