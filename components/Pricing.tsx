@@ -12,7 +12,7 @@ const plans = [
   },
   {
     name: 'Professional',
-    monthlyPrice: 150,
+    monthlyPrice: 23530.47,
     features: ['8 vCPU Cores', '16GB RAM', '500GB NVMe SSD', 'Unlimited Bandwidth', 'Hourly Backups', 'Snapshots', 'Priority Support'],
     recommended: true
   },
@@ -44,7 +44,7 @@ export default function Pricing() {
     if (!isLoggedIn) {
       router.push('/login');
     } else {
-      router.push(`/checkout?plan=${plan.name}&price=${isYearly ? Math.round(plan.monthlyPrice * 0.8) : plan.monthlyPrice}&billing=${isYearly ? 'yearly' : 'monthly'}`);
+      router.push(`/checkout?plan=${plan.name}&price=${isYearly ? Number((plan.monthlyPrice * 0.8).toFixed(2)) : plan.monthlyPrice}&billing=${isYearly ? 'yearly' : 'monthly'}`);
     }
   };
 
@@ -108,8 +108,8 @@ export default function Pricing() {
             const isHovered = hoveredIndex === index;
             const isRecommended = plan.recommended;
             const monthlyPrice = plan.monthlyPrice;
-            const yearlyPriceMonthly = Math.round(monthlyPrice * 0.8);
-            const totalYearly = yearlyPriceMonthly * 12;
+            const yearlyPriceMonthly = Number((monthlyPrice * 0.8).toFixed(2));
+            const totalYearly = Number((yearlyPriceMonthly * 12).toFixed(2));
 
             return (
               <div

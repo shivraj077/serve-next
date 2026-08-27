@@ -10,7 +10,7 @@ function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const plan = searchParams.get('plan') || 'Professional';
-  const pricePerMonth = searchParams.get('price') || '150';
+  const pricePerMonth = searchParams.get('price') || '23530.47';
   const billing = searchParams.get('billing') || 'monthly';
 
   const [step, setStep] = useState(1);
@@ -30,15 +30,15 @@ function CheckoutContent() {
   });
 
   // Base price calculation
-  const basePrice = (billing === 'yearly' ? parseInt(pricePerMonth) * 12 : parseInt(pricePerMonth)) * quantity;
+  const basePrice = (billing === 'yearly' ? parseFloat(pricePerMonth) * 12 : parseFloat(pricePerMonth)) * quantity;
 
   // Apply duration discounts (5% for 2 years, 10% for 3 years)
   const durationDiscount = duration === 2 ? 0.95 : duration === 3 ? 0.9 : 1;
-  const subtotal = Math.round(basePrice * duration * durationDiscount);
+  const subtotal = Number((basePrice * duration * durationDiscount).toFixed(2));
 
   // 18% GST Tax calculation
-  const gstAmount = Math.round(subtotal * 0.18);
-  const grandTotal = subtotal + gstAmount;
+  const gstAmount = Number((subtotal * 0.18).toFixed(2));
+  const grandTotal = Number((subtotal + gstAmount).toFixed(2));
 
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
