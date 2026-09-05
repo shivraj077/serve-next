@@ -6,25 +6,25 @@ import { useRouter } from 'next/navigation';
 const plans = [
   {
     name: 'Starter',
-    monthlyPrice: 2,
-    features: ['4 vCPU Cores', '8GB RAM', '200GB NVMe SSD', '10TB Bandwidth', 'Daily Backups', 'Free SSL', '24/7 Support'],
+    monthlyPrice: 22873,
+    features: ['4 vCPU Cores', '8GB RAM', '50GB NVMe SSD', '10TB Bandwidth', 'Daily Backups', 'Free SSL', '24/7 Support'],
     recommended: false
   },
   {
     name: 'Professional',
-    monthlyPrice: 23530.47,
+    monthlyPrice: 32530,
     features: ['8 vCPU Cores', '16GB RAM', '500GB NVMe SSD', 'Unlimited Bandwidth', 'Hourly Backups', 'Snapshots', 'Priority Support'],
     recommended: true
   },
   {
     name: 'Pro Plus',
-    monthlyPrice: 250,
+    monthlyPrice: 45640,
     features: ['16 vCPU Cores', '32GB RAM', '1TB NVMe SSD', 'Unlimited Bandwidth', 'DDoS Protection', 'Dedicated IP', 'Advanced Security'],
     recommended: false
   },
   {
     name: 'Enterprise',
-    monthlyPrice: 450,
+    monthlyPrice: 86960,
     features: ['32 vCPU Cores', '64GB RAM', '2TB NVMe SSD', 'Unlimited Bandwidth', 'Managed Support', 'WAF Protection', 'Dedicated Account Manager'],
     recommended: false
   }
@@ -167,7 +167,7 @@ export default function Pricing() {
                       <span style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         ₹{isYearly ? yearlyPriceMonthly : monthlyPrice}
                       </span>
-                      <span style={{ color: 'rgba(255,255,255,0.6)' }}>/mo</span>
+                      <span style={{ color: 'rgba(255,255,255,0.6)' }}>/yr</span>
                     </div>
                     {isYearly && (
                       <div style={{

@@ -492,7 +492,7 @@ function CheckoutContent() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'rgba(255,255,255,0.6)' }}>Unit Price</span>
-                  <span style={{ fontWeight: 'bold' }}>₹{pricePerMonth}/mo</span>
+                  <span style={{ fontWeight: 'bold' }}>₹{pricePerMonth}/yr</span>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
