@@ -13,19 +13,19 @@ const plans = [
   {
     name: 'Professional',
     monthlyPrice: 32530,
-    features: ['8 vCPU Cores', '16GB RAM', '500GB NVMe SSD', 'Unlimited Bandwidth', 'Hourly Backups', 'Snapshots', 'Priority Support'],
+    features: ['8 vCPU Cores', '16GB RAM', '100GB NVMe SSD', 'Unlimited Bandwidth', 'Hourly Backups', 'Snapshots', 'Priority Support'],
     recommended: true
   },
   {
     name: 'Pro Plus',
     monthlyPrice: 45640,
-    features: ['16 vCPU Cores', '32GB RAM', '1TB NVMe SSD', 'Unlimited Bandwidth', 'DDoS Protection', 'Dedicated IP', 'Advanced Security'],
+    features: ['16 vCPU Cores', '32GB RAM', '500GB NVMe SSD', 'Unlimited Bandwidth', 'DDoS Protection', 'Dedicated IP', 'Advanced Security'],
     recommended: false
   },
   {
     name: 'Enterprise',
     monthlyPrice: 86960,
-    features: ['32 vCPU Cores', '64GB RAM', '2TB NVMe SSD', 'Unlimited Bandwidth', 'Managed Support', 'WAF Protection', 'Dedicated Account Manager'],
+    features: ['32 vCPU Cores', '64GB RAM', '1TB NVMe SSD', 'Unlimited Bandwidth', 'Managed Support', 'WAF Protection', 'Dedicated Account Manager'],
     recommended: false
   }
 ];
